@@ -14,9 +14,6 @@ WORKDIR /usr/src/app
 # Copies the package.json first for better cache on later pushes
 COPY package*.json ./
 
-#built vue cli right into package.json
-#RUN npm install -g @vue/cli
-
 RUN npm ci
 
 # This will copy all files in our root to the working directory in the container
