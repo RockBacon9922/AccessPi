@@ -4,7 +4,11 @@ import fs from "fs";
 // const gate = new Gpio(4, "out");
 //open file called gate status
 export default function handler(req, res) {
-	var status = fs.readFileSync("gateStatus", "utf8");
+	try {
+		var status = fs.readFileSync("gateStatus", "utf8");
+	} catch (err) {
+		fs.writeFileSync("gateStatus", "false");
+	}
 	// console.log(req.query);
 	if (req.query.gate === "close") {
 		// gate.writeSync(0);
