@@ -2,6 +2,7 @@ version: "2"
 
 volumes:
   backend:
+
 services:
   backend:
     network_mode: host
@@ -12,6 +13,8 @@ services:
     volumes:
       - "backend:/data"
     privileged: true
+    depends_on:
+      - db
   browser:
     network_mode: host
     image: balenablocks/browser
@@ -19,3 +22,15 @@ services:
       - backend
     restart: always
     privileged: true
+  db:
+    image: mysql/mysql-server
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "backend"
+      MYSQL_USER: "backend"
+      MYSQL_PASSWORD: "backend"
+
+    network_mode: host
+    volumes:
+      - "backend:/db"
