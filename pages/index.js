@@ -5,31 +5,27 @@ const fetchStatus = () => {
 	fetch("/api/gate")
 		.then((res) => res.json())
 		.then((data) => {
-			return data.status;
+			return res.status;
 		})
 		.catch((err) => {
 			console.log(err);
 		});
 };
-var apiCallState = false;
-
-const Index = () => {
+const Index = (props) => {
 	const [gateState, setGateState] = useState(false);
 	var apiCall = (state) => {
-		if (apiCallState) {
-			setGateState(!gateState);
-			axios({
-				method: "post",
-				url: "/api/gate",
-				params: {
-					gate: state ? "open" : "close",
-				},
-			}).then((res) => {
-				console.log(res);
-			});
-		} else {
-			apiCallState = !apiCallState;
-		}
+		console.log("called api");
+		axios({
+			method: "post",
+			url: "/api/gate",
+			params: {
+				gate: state ? "open" : "close",
+			},
+		}).then((res) => {
+			console.log(res);
+		});
+		setGateState(state);
+		console.log(fetchStatus() === 202 ? "open" : "close");
 	};
 	return (
 		<>
