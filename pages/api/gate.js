@@ -17,15 +17,21 @@ export default function handler(req, res) {
 		fs.writeFileSync("gateStatus", "false");
 		status = false;
 		res
-			.status(200)
+			.status(201)
 			.json({ message: "Success: Gate is closing", status: status });
 	} else if (req.query.gate === "open") {
 		fs.writeFileSync("gateStatus", "true");
 		status = true;
 		// gate.writeSync(1);
 		res
-			.status(200)
+			.status(202)
 			.json({ message: "Success: Gate is opening", status: status });
+	} else if (req.query.gate === "status") {
+		if (status) {
+			res.status(202);
+		} else {
+			res.status(201);
+		}
 	} else {
 		res.status(207).json({
 			message: "No Command has been sent to the gate",
