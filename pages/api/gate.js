@@ -8,6 +8,7 @@ export default function handler(req, res) {
 		var status = fs.readFileSync("gateStatus", "utf8");
 	} catch (err) {
 		fs.writeFileSync("gateStatus", "false");
+		console.log(err);
 	}
 	// console.log(req.query);
 	if (req.query.gate === "close") {
