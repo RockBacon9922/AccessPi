@@ -2,3 +2,7 @@
 node_modules/
 .git
 repo.yml
+gateStatus
+/template
+/Trial
+/cache

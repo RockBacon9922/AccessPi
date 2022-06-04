@@ -173,3 +173,5 @@ yarn-error.log*
 
 /template
 /Trial
+/cache
+gateStatus
