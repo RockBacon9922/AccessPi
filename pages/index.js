@@ -1,32 +1,35 @@
 import { useState, useEffect, useRef, useReducer } from "react";
 import axios from "axios";
 
-const fetchStatus = () => {
-	fetch("/api/gate")
-		.then((res) => res.json())
-		.then((data) => {
-			return res.status;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
-};
 const Index = (props) => {
 	const [gateState, setGateState] = useState(false);
-	var apiCall = (state) => {
-		console.log("called api");
-		axios({
+	const fetchStatus = () => {
+		console.log("fetching");
+		let res = axios
+			.get("/api/gate")
+			.then((res) => {
+				setGateState(res.data.status === "true" ? true : false);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+	var apiCall = async (state) => {
+		console.log("called api 1");
+		await axios({
 			method: "post",
 			url: "/api/gate",
 			params: {
 				gate: state ? "open" : "close",
 			},
-		}).then((res) => {
-			console.log(res);
+		}).catch((err) => {
+			console.log(err);
 		});
-		setGateState(state);
-		console.log(fetchStatus() === 202 ? "open" : "close");
+		fetchStatus();
 	};
+	useState(() => {
+		setInterval(fetchStatus, 8000);
+	}, []);
 	return (
 		<>
 			<span>
